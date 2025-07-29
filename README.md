@@ -1,4 +1,6 @@
 # Socket Programming Functions Reference
+<img width="390" height="543" alt="image" src="https://github.com/user-attachments/assets/8969a568-04eb-4fc2-8641-f53bdd0a69b9" />
+
 <img width="642" height="310" alt="image" src="https://github.com/user-attachments/assets/419fe052-0c0a-49fd-a9cb-98f19c10c399" />
 
 ## Core Socket Functions
