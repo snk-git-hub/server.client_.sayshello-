@@ -7,17 +7,15 @@
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <netinet/ip.h>
-#include <stdbool.h>
-
-
-static void msg(const char *msg) {
-    fprintf(stderr, "%s\n", msg);
-}
 
 static void die(const char *msg) {
     int err = errno;
     fprintf(stderr, "[%d] %s\n", err, msg);
     abort();
+}
+
+static void msg(const char *msg) {
+    fprintf(stderr, "%s\n", msg);
 }
 
 static void do_something(int connfd) {
@@ -27,9 +25,12 @@ static void do_something(int connfd) {
         msg("read() error");
         return;
     }
+    
     fprintf(stderr, "client says: %s\n", rbuf);
-
-    char wbuf[] = "world";
+   
+    char wbuf[64];
+    strcpy(wbuf, "world");
+   
     write(connfd, wbuf, strlen(wbuf));
 }
 
@@ -59,6 +60,8 @@ int main() {
         die("listen()");
     }
 
+    printf("Server listening on port 1234...\n");
+
     while (true) {
         // accept
         struct sockaddr_in client_addr = {};
@@ -66,10 +69,10 @@ int main() {
         int connfd = accept(fd, (struct sockaddr *)&client_addr, &addrlen);
         if (connfd < 0) {
             msg("accept() error");
-
-            continue;   // error
+            continue;
         }
 
+        printf("Client connected\n");
         do_something(connfd);
         close(connfd);
     }
